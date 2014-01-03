@@ -1,11 +1,14 @@
 <?php
 
+require('db_config.php');
+$mysql_table = "zendesk_solved";
+
 	$format = strtolower($_GET['format']) == 'json' ? 'json' : 'xml'; //xml is the default
 
-	mysql_connect('localhost', 'MYSQL_USERNAME', 'MYSQL_USERNAME') or die(mysql_error());
-	mysql_select_db('MYSQL_DB_NAME') or die(mysql_error());
+	mysql_connect($mysql_host, $mysql_username, $mysql_password) or die(mysql_error());
+	mysql_select_db($mysql_db) or die(mysql_error());
 
-	$query = "SELECT solved_by,COUNT(`solved_by`) as cnt FROM `MYSQL_TABLE_NAME` where date=curdate() Group by solved_by order by count(`solved_by`) desc";
+	$query = "SELECT solved_by,COUNT(`solved_by`) as cnt FROM `$mysql_table` where date=curdate() Group by solved_by order by count(`solved_by`) desc";
 
 	$result = mysql_query($query);
 

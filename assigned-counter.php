@@ -1,14 +1,17 @@
 <?php
 
+require('db_config.php');
+$mysql_table = "zendesk_assigned";
+
 if(isset($_POST)) {
 
 	foreach($_POST as $key => $value) {
 		
 		list($ticket_id,$name) = explode(":::", $value);
 		
-		mysql_connect('localhost', 'MYSQL_USERNAME', 'MYSQL_PASSWORD') or die(mysql_error());
-		mysql_select_db('MYSQL_DB_NAME') or die(mysql_error());
-		$query = "INSERT INTO `MYSQL_DB_NAME`.`MYSQL_TABLE_NAME` (`ticket_id`, `assigned_to`, `date`) VALUES ('" . $ticket_id . "', '" . $name . "',  now());";
+		mysql_connect($mysql_host, $mysql_username, $mysql_password) or die(mysql_error());
+		mysql_select_db($mysql_db) or die(mysql_error());
+		$query = "INSERT INTO `$mysql_db`.`$mysql_table` (`ticket_id`, `assigned_to`, `date`) VALUES ('" . $ticket_id . "', '" . $name . "',  now());";
 
 		$result = mysql_query($query);
 
